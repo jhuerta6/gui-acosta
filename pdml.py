@@ -215,7 +215,7 @@ class HeaderBarWindow(Gtk.Window):
 
 class pdml(Gtk.Window):
     def field_selected():
-        print("lol")
+        print("defined action")
     def __init__(self):
         Gtk.Window.__init__(self, title="PDML View")
         self.set_border_width(3)
