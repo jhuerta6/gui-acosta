@@ -77,7 +77,7 @@ class PacketArea(Gtk.Window):
         layout.pack_start(fieldview, True, True, 0)
 
         selectrow = fieldview.get_selection()
-        selectrow.connect("changed", self. field_selected)
+        selectrow.connect("changed", self.field_selected)
 
         bx1 = Gtk.Box(spacing=6)
         remBut = Gtk.Button(label="Remove")
@@ -123,7 +123,7 @@ class FieldArea(Gtk.Window):
         layout.pack_start(fieldview, True, True, 0)
 
         selectrow = fieldview.get_selection()
-        selectrow.connect("changed", self. field_selected)
+        selectrow.connect("changed", self.field_selected)
 
 
     def field_selected(self, selection):
@@ -213,28 +213,56 @@ class HeaderBarWindow(Gtk.Window):
 		grid.attach_next_to(button6, button5, 1, 1, 1)
 		hb.pack_end(grid)
 
-win = FilterArea()
+class pdml(Gtk.Window):
+    def field_selected():
+        print("lol")
+    def __init__(self):
+        Gtk.Window.__init__(self, title="PDML View")
+        self.set_border_width(3)
+        self.set_border_width(10)
+        self.set_default_size(750, 300)
+
+        grid= Gtk.Grid()
+        self.add(grid)
+
+        win = FilterArea()
+        win.connect("destroy", Gtk.main_quit)
+        #win.show_all()
+        #Gtk.main()
+
+        win4 = HeaderBarWindow()
+        win4.connect("destroy", Gtk.main_quit)
+        #win4.show_all()
+        #Gtk.main()
+
+        win1 = PacketArea()
+        win1.connect("destroy", Gtk.main_quit)
+        #win1.show_all()
+        #Gtk.main()
+
+
+        win2 = FieldArea()
+        win2.connect("destroy", Gtk.main_quit)
+        #win2.show_all()
+        #Gtk.main()
+
+        win3 = MessageTypeArea()
+        win3.connect("destroy", Gtk.main_quit)
+        #win3.show_all()
+
+        grid.add(win3)
+        grid.attach(win4, 1,1,1,1)
+        grid.attach_next_to(win, win4, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(win1, win, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(win2, win1, Gtk.PositionType.BOTTOM, 1, 1)
+        #grid.attach_next_to(win3, win2, GtK.PositionType.BOTTOM)
+        #grid.attach_next_to(win2)
+        #grid.add(win3)
+
+
+
+
+win = pdml()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
-#Gtk.main()
-
-win4 = HeaderBarWindow()
-win4.connect("destroy", Gtk.main_quit)
-win4.show_all()
-#Gtk.main()
-
-win1 = PacketArea()
-win1.connect("destroy", Gtk.main_quit)
-win1.show_all()
-#Gtk.main()
-
-
-win2 = FieldArea()
-win2.connect("destroy", Gtk.main_quit)
-win2.show_all()
-#Gtk.main()
-
-win3 = MessageTypeArea()
-win3.connect("destroy", Gtk.main_quit)
-win3.show_all()
 Gtk.main()

@@ -38,7 +38,7 @@ class FilterArea(Gtk.Window):
         vbox.pack_start(label2, True, True, 0)
         vbox.pack_start(saveFilters, True, True, 0)
         vbox.pack_start(applyFil, True, True, 0)
-        
+
 win = FilterArea()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
