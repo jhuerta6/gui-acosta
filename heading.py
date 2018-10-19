@@ -9,6 +9,7 @@ class HeaderBarWindow(Gtk.Window):
 		#self.set_default_size(1000, 600)
 		self.set_halign(Gtk.Align.FILL)
 		self.set_valign(Gtk.Align.FILL)
+		self.set_hexpand(True)
 
 		hb = Gtk.HeaderBar()
 		hb.set_show_close_button(True)
@@ -48,8 +49,21 @@ class HeaderBarWindow(Gtk.Window):
 		label.set_markup("<big>A fancy label</big>")
 		stack.add_titled(label, "message analysis", "Stage 2: Message Analysis")
 
-		button = Gtk.Button("Test")
-		stack.add_titled(button, "sequencing", "Stage 3: Sequencing")
+		buttonwhat = Gtk.Grid()
+		button1 = Gtk.Button(label="Crn 1")
+		button2 = Gtk.Button(label="Crn2")
+		button3 = Gtk.Button(label="Crn3")
+		button4 = Gtk.Button(label="Crn4")
+		button5 = Gtk.Button(label="Crn5")
+		button6 = Gtk.Button(label="Crn6")
+
+		buttonwhat.attach(button1, 1 ,1 ,1, 1)
+		buttonwhat.attach(button2, 1, Gtk.PositionType.BOTTOM, 10, 2)
+		buttonwhat.attach_next_to(button3, button2, Gtk.PositionType.BOTTOM, 10, 2)
+		buttonwhat.attach_next_to(button4, button3, Gtk.PositionType.BOTTOM, 10, 2)
+		buttonwhat.attach_next_to(button5, button4, Gtk.PositionType.BOTTOM, 10, 2)
+		buttonwhat.attach_next_to(button6, button5, Gtk.PositionType.BOTTOM, 10, 2)
+		stack.add_titled(buttonwhat, "sequencing", "Stage 3: Sequencing")
 
 		phase4 = Gtk.TextView()
 		stack.add_titled(phase4,"code generation","Stage 4: Code Generation")
@@ -60,7 +74,7 @@ class HeaderBarWindow(Gtk.Window):
 		vbox.pack_start(stack, True, True, 0)
 
 		grid2 = Gtk.Grid()
-		#button1 = Gtk.Button(label="1 Create Session")
+		button1 = Gtk.Button(label="1 Create Session")
 		button2 = Gtk.Button(label="2 Open Session")
 		button3 = Gtk.Button(label="3 Close Session")
 		button4 = Gtk.Button(label="4 Switch Workspace")
@@ -68,7 +82,9 @@ class HeaderBarWindow(Gtk.Window):
 		button6 = Gtk.Button(label="6 Terminal")
 
 		grid2.attach(vbox, 1, 1, 120, 10)
+		#grid2.attach(button1, 1, 1, 1000, 10)
 		grid2.attach_next_to(button2, vbox, Gtk.PositionType.BOTTOM, 40, 10)
+		#grid2.attach_next_to(button2, button1, Gtk.PositionType.BOTTOM, 40, 10)
 		grid2.attach_next_to(button3, button2, Gtk.PositionType.BOTTOM, 40, 10)
 		grid2.attach_next_to(button4, button2, 1, 80, 10)
 		grid2.attach_next_to(button5, button4, Gtk.PositionType.BOTTOM, 40, 10)
