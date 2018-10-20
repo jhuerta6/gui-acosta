@@ -37,13 +37,31 @@ class HeaderBarWindow(Gtk.Window):
 		grid.attach_next_to(button6, button5, 1, 1, 1)
 		hb.pack_end(grid)
 
+
+		grid2 = Gtk.Grid()
+		button1 = Gtk.Button(label="1 Create Session")
+		button2 = Gtk.Button(label="2 Open Session")
+		button3 = Gtk.Button(label="3 Close Session")
+		button4 = Gtk.Button(label="4 Switch Workspace")
+		button5 = Gtk.Button(label="5 Open PCAP")
+		button6 = Gtk.Button(label="6 Terminal")
+
+		grid2.attach(button1, 1, 1, 120, 10)
+		#grid2.attach(button1, 1, 1, 1000, 10)
+		grid2.attach_next_to(button2, button1, Gtk.PositionType.BOTTOM, 40, 10)
+		#grid2.attach_next_to(button2, button1, Gtk.PositionType.BOTTOM, 40, 10)
+		grid2.attach_next_to(button3, button2, Gtk.PositionType.BOTTOM, 40, 10)
+		grid2.attach_next_to(button4, button2, 1, 80, 10)
+		grid2.attach_next_to(button5, button4, Gtk.PositionType.BOTTOM, 40, 10)
+		grid2.attach_next_to(button6, button5, 1, 40, 10)
+
 		vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=1)
 		stack = Gtk.Stack()
 		stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
 		stack.set_transition_duration(1000)
 
 		checkbutton = Gtk.CheckButton("Click me!")
-		stack.add_titled(checkbutton, "config", "Stage 1: Configuration and Setup")
+		stack.add_titled(grid2, "config", "Stage 1: Configuration and Setup")
 
 		label = Gtk.Label()
 		label.set_markup("<big>A fancy label</big>")
@@ -73,24 +91,7 @@ class HeaderBarWindow(Gtk.Window):
 		vbox.pack_start(stack_switcher, True, True, 0)
 		vbox.pack_start(stack, True, True, 0)
 
-		grid2 = Gtk.Grid()
-		button1 = Gtk.Button(label="1 Create Session")
-		button2 = Gtk.Button(label="2 Open Session")
-		button3 = Gtk.Button(label="3 Close Session")
-		button4 = Gtk.Button(label="4 Switch Workspace")
-		button5 = Gtk.Button(label="5 Open PCAP")
-		button6 = Gtk.Button(label="6 Terminal")
-
-		grid2.attach(vbox, 1, 1, 120, 10)
-		#grid2.attach(button1, 1, 1, 1000, 10)
-		grid2.attach_next_to(button2, vbox, Gtk.PositionType.BOTTOM, 40, 10)
-		#grid2.attach_next_to(button2, button1, Gtk.PositionType.BOTTOM, 40, 10)
-		grid2.attach_next_to(button3, button2, Gtk.PositionType.BOTTOM, 40, 10)
-		grid2.attach_next_to(button4, button2, 1, 80, 10)
-		grid2.attach_next_to(button5, button4, Gtk.PositionType.BOTTOM, 40, 10)
-		grid2.attach_next_to(button6, button5, 1, 40, 10)
-
-		self.add(grid2)
+		self.add(vbox)
 
 win = HeaderBarWindow()
 win.connect("destroy", Gtk.main_quit)
