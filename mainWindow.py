@@ -46,7 +46,8 @@ class mainWindow(Gtk.Window):
 		grid1 = Gtk.Grid()
 		element1 = Gtk.Button(label="1 Session View")
 		element2 = self.tagArea()
-		element3 = Gtk.Button(label="3 PDML View")
+		#element3 = Gtk.Button(label="3 PDML View")
+		element3 = self.pdmlView()
 		element4 = self.fieldAreaMessageTypeArea()
 
 		grid1.attach(element1, 1, 1, 40, 10)
@@ -174,6 +175,55 @@ class mainWindow(Gtk.Window):
 		confirm_box.pack_start(update_button, True, True, 0)
 		confirm_box.pack_start(cancel_button, True, True, 0)
 		return main_box
+	def pdmlView(self):
+		main_box = Gtk.Grid()
+		menu = Gtk.Grid()
+		entry1 = Gtk.Entry()
+		entry1.set_text("New PDML State Name")
+		button2 = Gtk.Button(label="Save as New")
+		button3 = Gtk.Button(label="Save Current")
+		button4 = Gtk.Button(label="Close Current")
+		button5 = Gtk.Button(label="Delete Current")
+		entry6 = Gtk.Entry()
+		entry6.set_text("Rename Current PDML State Name")
+		button7 = Gtk.Button(label="Rename Current")
+
+		menu.add(entry1)
+		menu.attach_next_to(button2, entry1, 1, 1, 20)
+		menu.attach_next_to(button3, button2, 1, 1, 20)
+		menu.attach_next_to(button4, button3, 1, 1, 20)
+		menu.attach_next_to(button5, button4, 1, 1, 20)
+		menu.attach_next_to(entry6, button5, 1, 1, 20)
+		menu.attach_next_to(button7, entry6, 1, 1, 20)
+
+		vbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+		tbox = Gtk.Box(spacing = 2)
+
+		label1 = Gtk.Label("Filter Area", xalign=0)
+		label2 = Gtk.Label("Saved Filter")
+		tbox.pack_start(label1, True, True, 0)
+		entry = Gtk.Entry()
+		entry.set_text("Filter Expression")
+		vbox.pack_start(tbox, True, True, 0)
+		vbox.pack_start(entry, True, True, 0)
+
+		applyBut = Gtk.Button(label="Apply")
+		clearBut = Gtk.Button(label="Clear")
+		saveBut = Gtk.Button(label="Save")
+		saveFilters = Gtk.ComboBox()
+		applyFil = Gtk.Button(label="Apply")
+
+		vbox.pack_start(applyBut, True, True, 0)
+		vbox.pack_start(clearBut, True, True, 0 )
+		vbox.pack_start(saveBut, True, True, 0)
+		vbox.pack_start(label2, True, True, 0)
+		vbox.pack_start(saveFilters, True, True, 0)
+		vbox.pack_start(applyFil, True, True, 0)
+
+		main_box.add(menu)
+		main_box.attach_next_to(vbox, menu, Gtk.PositionType.BOTTOM, 1, 1)
+		return main_box
+
 
 win = mainWindow()
 win.connect("destroy", Gtk.main_quit)
