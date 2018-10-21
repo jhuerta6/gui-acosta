@@ -2,7 +2,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
-class mainWindow(Gtk.Window):
+class HeaderBarWindow(Gtk.Window):
 	def __init__(self):
 		Gtk.Window.__init__(self, title="HeaderBar Demo")
 		self.set_border_width(10)
@@ -138,7 +138,7 @@ class mainWindow(Gtk.Window):
 
 		return element5
 
-win = mainWindow()
+win = HeaderBarWindow()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
 Gtk.main()
