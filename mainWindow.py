@@ -45,17 +45,14 @@ class mainWindow(Gtk.Window):
 		#grid1 == first screen/element to add to stack
 		grid1 = Gtk.Grid()
 		element1 = Gtk.Button(label="1 Session View")
-		element2 = Gtk.Button(label="2 Tag Area")
+		element2 = self.tagArea()
 		element3 = Gtk.Button(label="3 PDML View")
-		element4 = Gtk.Button(label="4 Field Area")
-		#element5 = Gtk.Button(label="5 Message Type Area")
-		element5 = self.messageTypeArea()
+		element4 = self.fieldAreaMessageTypeArea()
 
 		grid1.attach(element1, 1, 1, 40, 10)
 		grid1.attach_next_to(element2, element1, Gtk.PositionType.BOTTOM, 40, 10)
 		grid1.attach_next_to(element3, element1, Gtk.PositionType.RIGHT, 80, 10)
-		grid1.attach_next_to(element4, element3, Gtk.PositionType.BOTTOM, 40, 10)
-		grid1.attach_next_to(element5, element4, 1, 40, 10)
+		grid1.attach_next_to(element4, element3, Gtk.PositionType.BOTTOM, 80, 10)
 
 		#add first screen/element to the stack
 		stack.add_titled(grid1, "config", "Stage 1: Configuration and Setup")
@@ -64,7 +61,7 @@ class mainWindow(Gtk.Window):
 		label.set_markup("<big>A fancy label</big>")
 		stack.add_titled(label, "message analysis", "Stage 2: Message Analysis")
 
-		buttonwhat = Gtk.Grid()
+		grid3 = Gtk.Grid()
 		button1 = Gtk.Button(label="Crn 1")
 		button2 = Gtk.Button(label="Crn2")
 		button3 = Gtk.Button(label="Crn3")
@@ -72,13 +69,13 @@ class mainWindow(Gtk.Window):
 		button5 = Gtk.Button(label="Crn5")
 		button6 = Gtk.Button(label="Crn6")
 
-		buttonwhat.attach(button1, 1 ,1 ,1, 1)
-		buttonwhat.attach(button2, 1, Gtk.PositionType.BOTTOM, 10, 2)
-		buttonwhat.attach_next_to(button3, button2, Gtk.PositionType.BOTTOM, 10, 2)
-		buttonwhat.attach_next_to(button4, button3, Gtk.PositionType.BOTTOM, 10, 2)
-		buttonwhat.attach_next_to(button5, button4, Gtk.PositionType.BOTTOM, 10, 2)
-		buttonwhat.attach_next_to(button6, button5, Gtk.PositionType.BOTTOM, 10, 2)
-		stack.add_titled(buttonwhat, "sequencing", "Stage 3: Sequencing")
+		grid3.attach(button1, 1 ,1 ,1, 1)
+		grid3.attach(button2, 1, Gtk.PositionType.BOTTOM, 10, 2)
+		grid3.attach_next_to(button3, button2, Gtk.PositionType.BOTTOM, 10, 2)
+		grid3.attach_next_to(button4, button3, Gtk.PositionType.BOTTOM, 10, 2)
+		grid3.attach_next_to(button5, button4, Gtk.PositionType.BOTTOM, 10, 2)
+		grid3.attach_next_to(button6, button5, Gtk.PositionType.BOTTOM, 10, 2)
+		stack.add_titled(grid3, "sequencing", "Stage 3: Sequencing")
 
 		phase4 = Gtk.TextView()
 		stack.add_titled(phase4,"code generation","Stage 4: Code Generation")
@@ -90,7 +87,7 @@ class mainWindow(Gtk.Window):
 
 		self.add(vbox)
 
-	def messageTypeArea(self):
+	def fieldAreaMessageTypeArea(self):
 		element5 = Gtk.Notebook()
 		page1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 		page1.set_border_width(10)
@@ -103,7 +100,7 @@ class mainWindow(Gtk.Window):
 		bx2.pack_start(Gtk.Entry(), True, True, 10)
 		bx3 = Gtk.Box()
 		existing_msg_types = Gtk.ComboBox()
-        #existing_msg_types.config(height = 1, width= 3)
+		#existing_msg_types.config(height = 1, width= 3)
 		page1.pack_start(existing_msg_types, True, True, 10)
 		page1.pack_start(bx1, True, True, 10)
 		page1.pack_start(bx2, True, True, 10)
@@ -137,6 +134,46 @@ class mainWindow(Gtk.Window):
 		element5.append_page(page5, Gtk.Label('Generation'))
 
 		return element5
+	def tagArea(self):
+		main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=400)
+
+		## Sub Containers ##
+		tag_box = Gtk.Grid()
+		confirm_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
+		main_box.pack_start(tag_box, True, True, 0)
+		main_box.pack_start(confirm_box, True, True, 0)
+
+		## Drop down tags and entries ##
+		saved_tag = Gtk.ComboBoxText()
+		tag_name = Gtk.Entry()
+		tag_name.set_text("Tag Name")
+		tagged_field = Gtk.Entry()
+		tagged_field.set_text("Tagged Field")
+		tag_description = Gtk.Entry()
+		tag_description.set_text("Tag Description")
+
+		saved_tag_label = Gtk.Label("Saved Tag")
+		tag_name_label = Gtk.Label("Tag Name")
+		tagged_field_label = Gtk.Label("Tagged Field")
+		tag_description_label = Gtk.Label("Tag Description")
+
+		## Action Buttons ##
+		update_button = Gtk.Button.new_with_label("Update")
+		cancel_button = Gtk.Button.new_with_label("Cancel")
+
+		## Added to respective Containers ##
+		tag_box.add(saved_tag_label)
+		tag_box.attach(saved_tag, 1, 0, 1, 1)
+		tag_box.attach(tag_name_label, 0, 1, 1, 1)
+		tag_box.attach(tag_name, 1, 1, 1, 1)
+		tag_box.attach(tagged_field_label, 0, 2, 1, 1)
+		tag_box.attach(tagged_field, 1, 2, 1, 1)
+		tag_box.attach(tag_description_label,0, 3, 1, 1)
+		tag_box.attach(tag_description,1, 3, 1, 1)
+
+		confirm_box.pack_start(update_button, True, True, 0)
+		confirm_box.pack_start(cancel_button, True, True, 0)
+		return main_box
 
 win = mainWindow()
 win.connect("destroy", Gtk.main_quit)
