@@ -52,14 +52,13 @@ class mainWindow(Gtk.Window):
 		grid1 = Gtk.Grid()
 		element1 = Gtk.Button(label="1 Session View")
 		element2 = self.tagArea()
-		#element3 = Gtk.Button(label="3 PDML View")
 		element3 = self.pdmlView()
-		element4 = self.fieldAreaMessageTypeArea()
+		#element4 = self.fieldAreaMessageTypeArea()
 
 		grid1.attach(element1, 1, 1, 40, 10)
 		grid1.attach_next_to(element2, element1, Gtk.PositionType.BOTTOM, 40, 10)
 		grid1.attach_next_to(element3, element1, Gtk.PositionType.RIGHT, 80, 10)
-		grid1.attach_next_to(element4, element3, Gtk.PositionType.BOTTOM, 80, 10)
+		#grid1.attach_next_to(element4, element3, Gtk.PositionType.BOTTOM, 80, 10)
 
 		#add first screen/element to the stack
 		stack.add_titled(grid1, "config", "Stage 1: Configuration and Setup")
@@ -242,7 +241,7 @@ class mainWindow(Gtk.Window):
 		menu.attach_next_to(entry6, button5, 1, 1, 20)
 		menu.attach_next_to(button7, entry6, 1, 1, 20)
 
-		vbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+		vibox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 		tbox = Gtk.Box(spacing = 2)
 
 		label1 = Gtk.Label("Filter Area", xalign=0)
@@ -250,8 +249,8 @@ class mainWindow(Gtk.Window):
 		tbox.pack_start(label1, True, True, 0)
 		entry = Gtk.Entry()
 		entry.set_text("Filter Expression")
-		vbox.pack_start(tbox, True, True, 0)
-		vbox.pack_start(entry, True, True, 0)
+		vibox.pack_start(tbox, True, True, 0)
+		vibox.pack_start(entry, True, True, 0)
 
 		applyBut = Gtk.Button(label="Apply")
 		clearBut = Gtk.Button(label="Clear")
@@ -259,28 +258,69 @@ class mainWindow(Gtk.Window):
 		saveFilters = Gtk.ComboBox()
 		applyFil = Gtk.Button(label="Apply")
 
-		vbox.pack_start(applyBut, True, True, 0)
-		vbox.pack_start(clearBut, True, True, 0 )
-		vbox.pack_start(saveBut, True, True, 0)
-		vbox.pack_start(label2, True, True, 0)
-		vbox.pack_start(saveFilters, True, True, 0)
-		vbox.pack_start(applyFil, True, True, 0)
+		vibox.pack_start(applyBut, True, True, 0)
+		vibox.pack_start(clearBut, True, True, 0 )
+		vibox.pack_start(saveBut, True, True, 0)
+		vibox.pack_start(label2, True, True, 0)
+		vibox.pack_start(saveFilters, True, True, 0)
+		vibox.pack_start(applyFil, True, True, 0)
 
+		notebook = Gtk.Notebook()
+		page1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		page1.set_border_width(10)
+		bx1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		bx2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		page1.add(Gtk.Label('New Modify'))
+		bx1.add(Gtk.Label('Message Type Name'))
+		bx1.pack_start(Gtk.Entry(), True, True, 10)
+		bx2.add(Gtk.Label('Message Type Field Value Pairs'))
+		bx2.pack_start(Gtk.Entry(), True, True, 10)
+		bx3 = Gtk.Box()
+		existing_msg_types = Gtk.ComboBox()
+		#existing_msg_types.config(height = 1, width= 3)
+		page1.pack_start(existing_msg_types, True, True, 10)
+		page1.pack_start(bx1, True, True, 10)
+		page1.pack_start(bx2, True, True, 10)
+		deleteBut = Gtk.Button(label="Delete")
+		saveBut = Gtk.Button(label="Save")
+		clearBut = Gtk.Button(label="Clear")
+		bx3.pack_start(deleteBut, True, True, 0)
+		bx3.pack_start(saveBut, True, True, 0 )
+		bx3.pack_start(clearBut, True, True, 0)
+		page1.pack_start(bx3, True, True, 0)
+		notebook.append_page(page1, Gtk.Label('Existing Message Type'))
+
+		page2 = Gtk.Box()
+		page2.set_border_width(10)
+		page2.add(Gtk.Label('Under Construction.'))
+		notebook.append_page(page2, Gtk.Label('Dependency'))
+
+		page3 = Gtk.Box()
+		page3.set_border_width(10)
+		page3.add(Gtk.Label('Under Construction'))
+		notebook.append_page(page3, Gtk.Label('Template'))
+
+		page4 = Gtk.Box()
+		page4.set_border_width(10)
+		page4.add(Gtk.Label('Under Construction'))
+		notebook.append_page(page4, Gtk.Label('Equivalency'))
+
+		page5 = Gtk.Box()
+		page5.set_border_width(10)
+		page5.add(Gtk.Label('Under Construction'))
+		notebook.append_page(page5, Gtk.Label('Generation'))
+
+		# bugs
 		layout = Gtk.Box()
-
 		fieldstore = Gtk.ListStore(str, int)
 
 		for item in field_packet:
 			fieldstore.append(list(item))
 		fieldview = Gtk.TreeView(fieldstore)
 
-
 		for i, coltitle in enumerate(["Packet", "Size",]):
-
 			render = Gtk.CellRendererText()
-
 			column = Gtk.TreeViewColumn(coltitle, render, text=i)
-
 			fieldview.append_column(column)
 
 		layout.pack_start(fieldview, True, True, 0)
@@ -294,12 +334,43 @@ class mainWindow(Gtk.Window):
 		clearBut = Gtk.Button(label="Clear")
 		bx1.pack_start(remBut, True, True, 0)
 		bx1.pack_start(clearBut, True, True, 0)
-
 		layout.pack_start(bx1, True, True, 0)
 
+		fieldstore = Gtk.ListStore(str, str, int , int , int, int, int)
+
+		for item in field:
+			fieldstore.append(list(item))
+		fieldview = Gtk.TreeView(fieldstore)
+
+		for i, coltitle in enumerate(["Field Name", "Showname", "Size", "Position", "Show", "Value", "Entropy"]):
+			render = Gtk.CellRendererText()
+			column = Gtk.TreeViewColumn(coltitle, render, text=i)
+			fieldview.append_column(column)
+
+		selectrow = fieldview.get_selection()
+		selectrow.connect("changed", self. field_selected)
+
+		box_outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		listbox = Gtk.ListBox()
+		listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+		box_outer.pack_start(listbox, True, True, 0)
+		row = Gtk.ListBoxRow()
+		hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
+		row.add(hbox)
+		vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+		hbox.pack_start(vbox, True, True, 0)
+		add_button = Gtk.Button(label="Add")
+		remove_button = Gtk.Button(label="Remove")
+		vbox.pack_start(add_button, True, True, 0)
+		vbox.pack_start(remove_button, True, True, 0)
+		listbox.add(row)
+
 		main_box.add(menu)
-		main_box.attach_next_to(vbox, menu, Gtk.PositionType.BOTTOM, 1, 1)
-		main_box.attach_next_to(layout, vbox, Gtk.PositionType.BOTTOM, 1, 1)
+		main_box.attach_next_to(vibox, menu, Gtk.PositionType.BOTTOM, 10, 1)
+		main_box.attach_next_to(layout, vibox, Gtk.PositionType.BOTTOM, 10, 1)
+		main_box.attach_next_to(fieldview, layout, Gtk.PositionType.BOTTOM, 4, 1)
+		main_box.attach_next_to(box_outer, fieldview, 1, 2, 1)
+		main_box.attach_next_to(notebook, box_outer, 1, 4, 1)
 		return main_box
 
 	def field_selected_packet(self, selection):
