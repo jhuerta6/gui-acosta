@@ -2,6 +2,12 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
+field = [("icmp.type", "Type 8 [Echo [ping] request", 1, 34, 8, 8, 2),
+	("icmp.code", "Code 0", 1, 35, 0, 0, 2), ("icmp.checksum", "Checksum: 0x6861 [correct]", 0, 36, 24, 6861, 0)]
+
+field_packet = [("Frame718: frame, eth, ip, tcp", 1),
+	("Frame767: frame, eth, ip, tcp", 2), ("Frame878: frame, eth, ip, tcp", 3)]
+
 class mainWindow(Gtk.Window):
 	def __init__(self):
 		Gtk.Window.__init__(self, title="HeaderBar Demo")
@@ -88,8 +94,42 @@ class mainWindow(Gtk.Window):
 
 		self.add(vbox)
 
+	def field_selected(self, selection):
+		model, row = selection.get_selected()
+
 	def fieldAreaMessageTypeArea(self):
-		element5 = Gtk.Notebook()
+		container = Gtk.Grid()
+		fieldstore = Gtk.ListStore(str, str, int , int , int, int, int)
+
+		for item in field:
+			fieldstore.append(list(item))
+		fieldview = Gtk.TreeView(fieldstore)
+
+		for i, coltitle in enumerate(["Field Name", "Showname", "Size", "Position", "Show", "Value", "Entropy"]):
+			render = Gtk.CellRendererText()
+			column = Gtk.TreeViewColumn(coltitle, render, text=i)
+			fieldview.append_column(column)
+
+		selectrow = fieldview.get_selection()
+		selectrow.connect("changed", self. field_selected)
+
+		#button_group = Gtk.ListBox()
+		box_outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		listbox = Gtk.ListBox()
+		listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+		box_outer.pack_start(listbox, True, True, 0)
+		row = Gtk.ListBoxRow()
+		hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
+		row.add(hbox)
+		vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+		hbox.pack_start(vbox, True, True, 0)
+		add_button = Gtk.Button(label="Add")
+		remove_button = Gtk.Button(label="Remove")
+		vbox.pack_start(add_button, True, True, 0)
+		vbox.pack_start(remove_button, True, True, 0)
+		listbox.add(row)
+
+		notebook = Gtk.Notebook()
 		page1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 		page1.set_border_width(10)
 		bx1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
@@ -112,29 +152,34 @@ class mainWindow(Gtk.Window):
 		bx3.pack_start(saveBut, True, True, 0 )
 		bx3.pack_start(clearBut, True, True, 0)
 		page1.pack_start(bx3, True, True, 0)
-		element5.append_page(page1, Gtk.Label('Existing Message Type'))
+		notebook.append_page(page1, Gtk.Label('Existing Message Type'))
 
 		page2 = Gtk.Box()
 		page2.set_border_width(10)
 		page2.add(Gtk.Label('Under Construction.'))
-		element5.append_page(page2, Gtk.Label('Dependency'))
+		notebook.append_page(page2, Gtk.Label('Dependency'))
 
 		page3 = Gtk.Box()
 		page3.set_border_width(10)
 		page3.add(Gtk.Label('Under Construction'))
-		element5.append_page(page3, Gtk.Label('Template'))
+		notebook.append_page(page3, Gtk.Label('Template'))
 
 		page4 = Gtk.Box()
 		page4.set_border_width(10)
 		page4.add(Gtk.Label('Under Construction'))
-		element5.append_page(page4, Gtk.Label('Equivalency'))
+		notebook.append_page(page4, Gtk.Label('Equivalency'))
 
 		page5 = Gtk.Box()
 		page5.set_border_width(10)
 		page5.add(Gtk.Label('Under Construction'))
-		element5.append_page(page5, Gtk.Label('Generation'))
+		notebook.append_page(page5, Gtk.Label('Generation'))
 
-		return element5
+		container.add(fieldview)
+		container.attach_next_to(box_outer, fieldview, 1, 1, 1)
+		container.attach_next_to(notebook, box_outer, 1, 1, 1)
+
+		return container
+
 	def tagArea(self):
 		main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=400)
 
@@ -175,6 +220,7 @@ class mainWindow(Gtk.Window):
 		confirm_box.pack_start(update_button, True, True, 0)
 		confirm_box.pack_start(cancel_button, True, True, 0)
 		return main_box
+
 	def pdmlView(self):
 		main_box = Gtk.Grid()
 		menu = Gtk.Grid()
@@ -220,9 +266,44 @@ class mainWindow(Gtk.Window):
 		vbox.pack_start(saveFilters, True, True, 0)
 		vbox.pack_start(applyFil, True, True, 0)
 
+		layout = Gtk.Box()
+
+		fieldstore = Gtk.ListStore(str, int)
+
+		for item in field_packet:
+			fieldstore.append(list(item))
+		fieldview = Gtk.TreeView(fieldstore)
+
+
+		for i, coltitle in enumerate(["Packet", "Size",]):
+
+			render = Gtk.CellRendererText()
+
+			column = Gtk.TreeViewColumn(coltitle, render, text=i)
+
+			fieldview.append_column(column)
+
+		layout.pack_start(fieldview, True, True, 0)
+
+		selectrow = fieldview.get_selection()
+		selectrow.connect("changed", self.field_selected_packet)
+
+		bx1 = Gtk.Box(spacing=6)
+		remBut = Gtk.Button(label="Remove")
+		remBut.set_size_request(5, 10)
+		clearBut = Gtk.Button(label="Clear")
+		bx1.pack_start(remBut, True, True, 0)
+		bx1.pack_start(clearBut, True, True, 0)
+
+		layout.pack_start(bx1, True, True, 0)
+
 		main_box.add(menu)
 		main_box.attach_next_to(vbox, menu, Gtk.PositionType.BOTTOM, 1, 1)
+		main_box.attach_next_to(layout, vbox, Gtk.PositionType.BOTTOM, 1, 1)
 		return main_box
+
+	def field_selected_packet(self, selection):
+		model, row = selection.get_selected()
 
 
 win = mainWindow()
