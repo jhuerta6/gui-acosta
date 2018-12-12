@@ -27,6 +27,8 @@ class Dissector:
 
         print(packetlist)
 
+        return root
+
 
 #Used for testing Dissector class
 a = Dissector()
