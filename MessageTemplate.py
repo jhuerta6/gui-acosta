@@ -14,10 +14,6 @@ class MessageTemplate:
         self.packetLDList = []
         self.checksumList = []
         self.fieldEquivalenceList = []
-        # self.fld = FieldLengthDependency("a","b")
-        # self.pld = PacketLengthDependency("c","d")
-        # self.check = CheckSum("e","f")
-        # self.fe = FieldEquivalence("g","h","i","j")
 
     def addFieldLengthDependency(self, a, b):
         self.fieldLengthDependencyList.append(FieldLengthDependency(a,b))
@@ -71,9 +67,9 @@ class MessageTemplate:
             print(x.sourceMessageType + " " + x.sourceFieldName + " " + x.targetMessageType + " " + x.targetFieldName)
         print("\n")
 
-exampleMsg = MessageTemplate("Message1","C:/Users/Sergio/Desktop", "C:/Users/Sergio/Desktop/Folder", "Scapy")
-exampleMsg.addFieldEquivalence("a", "b", "c", "d")
-exampleMsg.addFieldEquivalence("c", "d", "e", "f")
-exampleMsg.printFieldEquivalenceList()
-exampleMsg.removeFieldEquivalence("a", "b", "c", "d")
-exampleMsg.printFieldEquivalenceList()
+# exampleMsg = MessageTemplate("Message1","C:/Users/Sergio/Desktop", "C:/Users/Sergio/Desktop/Folder", "Scapy")
+# exampleMsg.addFieldEquivalence("a", "b", "c", "d")
+# exampleMsg.addFieldEquivalence("c", "d", "e", "f")
+# exampleMsg.printFieldEquivalenceList()
+# exampleMsg.removeFieldEquivalence("a", "b", "c", "d")
+# exampleMsg.printFieldEquivalenceList()
