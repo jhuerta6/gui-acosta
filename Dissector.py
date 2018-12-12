@@ -1,21 +1,35 @@
 import xml.etree.ElementTree as ET
+from PCAP import PCAP
 
-tree = ET.parse('cubic.pdml')
-root = tree.getroot()
 
-print(root)
-i = 0
-j = 0
-packetlist = []
+class Dissector:
+    def Dissect(self, pcap, filename="test.pcap"):
+        #pcap = PCAP() #used for testing
+        #convert file name
+        pdmlfile = pcap.convert(filename)
+        tree = ET.parse(pdmlfile)
+        root = tree.getroot()
 
-for packet in root:
-    print packet.tag, packet.attrib
-    for proto in packet:
-        print proto.tag, proto.attrib
-        for field in proto:
-            print field.tag, field.attrib
+        print(root)
+        i = 0
+        j = 0
+        packetlist = []
 
-for packet in root:
-    packetlist.append(packet)
+        #maybe we can use this to build PDML view... Create other classes
+        for packet in root:
+            print packet.tag, packet.attrib
+            for proto in packet:
+                print proto.tag, proto.attrib
+                for field in proto:
+                    print field.tag, field.attrib
+        for packet in root:
+            packetlist.append(packet)
 
-print(packetlist)
+        print(packetlist)
+
+
+#Used for testing Dissector class
+a = Dissector()
+pcap = PCAP()
+
+a.Dissect(pcap)
