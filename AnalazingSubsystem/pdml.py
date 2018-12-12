@@ -1,5 +1,6 @@
 import os
-import Dissector as diss
+from GitHub.GUI-ACOSTA import Dissector
 
 class pdml:
-    root= diss.getPDML()
+    root= Dissector.getPDML()
+    print(root)
