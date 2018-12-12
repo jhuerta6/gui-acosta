@@ -31,7 +31,7 @@ class Dissector:
 
 
 #Used for testing Dissector class
-a = Dissector()
-pcap = PCAP()
-
-a.Dissect(pcap)
+    def getPDML():
+        a = Dissector()
+        pcap = PCAP()
+        return a.Dissect(pcap)
