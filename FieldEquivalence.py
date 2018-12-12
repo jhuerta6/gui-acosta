@@ -1,7 +1,7 @@
 class FieldEquivalence:
 
-    def __init__(self, SourceMessageType, SourceFieldName, TargetMessageType, TargetFieldName):
-        self.SourceMessageType = SourceMessageType
-        self.SourceFieldName = SourceFieldName
-        self.TargetMessageType = TargetMessageType
-        self.TargetFieldName = TargetFieldName
+    def __init__(self, sourceMessageType, sourceFieldName, targetMessageType, targetFieldName):
+        self.sourceMessageType = sourceMessageType
+        self.sourceFieldName = sourceFieldName
+        self.targetMessageType = targetMessageType
+        self.targetFieldName = targetFieldName
